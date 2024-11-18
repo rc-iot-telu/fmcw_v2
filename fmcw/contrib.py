@@ -1,3 +1,5 @@
+import pickle
+
 from pathlib import Path
 
 
@@ -8,7 +10,16 @@ DB_PATH = ROOT_PATH.joinpath("db/")
 # Chosen Style
 CARD_STYLE = "flat bordered"
 
+SETTING_FILE_NAME = "settings.isiot"
 
-def set_port(port_number: str) -> None:
-    with open(DB_PATH.joinpath("settings.dat"), "wb") as f:
-        pass
+
+def read_setting() -> dict:
+    try:
+        with open(DB_PATH.joinpath(SETTING_FILE_NAME), "rb") as f:
+            settings_data: dict = pickle.load(f)
+    except FileNotFoundError:
+        settings_data =  {
+            "PORT_NUMBER": ""
+        }
+
+    return settings_data
